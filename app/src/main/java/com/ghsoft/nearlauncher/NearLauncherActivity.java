@@ -1,13 +1,13 @@
 package com.ghsoft.nearlauncher;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class NearLauncherActivity extends AppCompatActivity {
+public class NearLauncherActivity extends SingleFragmentActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_near_launcher);
+    protected Fragment createFragment() {
+        return NearLauncherFragment.newInstance();
     }
 }
