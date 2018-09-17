@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class NearLauncherFragment extends Fragment{
@@ -40,6 +42,18 @@ public class NearLauncherFragment extends Fragment{
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         PackageManager pm = getActivity().getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+        // 以按activity标签首字母排序的方式对resolveInfo进行排序,不会生成新的resolveInfo列表
+        Collections.sort(activities, new Comparator<ResolveInfo>() {
+            @Override
+            public int compare(ResolveInfo o1, ResolveInfo o2) {
+                PackageManager pm = getActivity().getPackageManager();
+                return String.CASE_INSENSITIVE_ORDER.compare(
+                        // 获取到activity的标签名,不分大小写顺序的比较
+                        o1.loadLabel(pm).toString(),
+                        o2.loadLabel(pm).toString()
+                ) ;
+            }
+        });
         Log.i(TAG, "Found " + activities.size() + " activities.");
     }
 }
