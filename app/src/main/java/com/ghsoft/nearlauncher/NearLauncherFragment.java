@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,5 +56,22 @@ public class NearLauncherFragment extends Fragment{
             }
         });
         Log.i(TAG, "Found " + activities.size() + " activities.");
+    }
+    private class ActivityHolder extends RecyclerView.ViewHolder{
+
+        private TextView mNameTextView;
+        private ResolveInfo mResolveInfo;
+
+        public ActivityHolder(@NonNull View itemView) {
+            super(itemView);
+            mNameTextView = (TextView) itemView;
+        }
+
+        public void bindActivity(ResolveInfo resolveInfo) {
+            mResolveInfo = resolveInfo;
+            PackageManager pm = getActivity().getPackageManager();
+            String appName = resolveInfo.loadLabel(pm).toString();
+            mNameTextView.setText(appName);
+        }
     }
 }
