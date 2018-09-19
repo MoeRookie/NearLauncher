@@ -89,7 +89,8 @@ public class NearLauncherFragment extends Fragment{
             // 获取能够得到activity包名、类名的activityInfo
             ActivityInfo activityInfo = mResolveInfo.activityInfo;
             Intent intent = new Intent(Intent.ACTION_MAIN)
-                    .setClassName(activityInfo.packageName,activityInfo.name);
+                    .setClassName(activityInfo.packageName,activityInfo.name)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
     }
