@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Collections;
@@ -70,11 +72,13 @@ public class NearLauncherFragment extends Fragment{
 
         private ResolveInfo mResolveInfo;
         private TextView mNameTextView;
+        private ImageView mIconImageView;
 
         public ActivityHolder(@NonNull View itemView) {
             super(itemView);
-            mNameTextView = (TextView) itemView;
-            mNameTextView.setOnClickListener(this);
+            mIconImageView = itemView.findViewById(R.id.iv_icon);
+            mNameTextView = itemView.findViewById(R.id.tv_app_name);
+            itemView.setOnClickListener(this);
         }
 
         public void bindActivity(ResolveInfo resolveInfo) {
@@ -82,6 +86,8 @@ public class NearLauncherFragment extends Fragment{
             PackageManager pm = getActivity().getPackageManager();
             String appName = mResolveInfo.loadLabel(pm).toString();
             mNameTextView.setText(appName);
+            Drawable appIcon = mResolveInfo.loadIcon(pm).getCurrent();
+            mIconImageView.setImageDrawable(appIcon);
         }
 
         @Override
@@ -106,7 +112,7 @@ public class NearLauncherFragment extends Fragment{
         public ActivityHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             View view = inflater
-                    .inflate(android.R.layout.simple_list_item_1, viewGroup, false);
+                    .inflate(R.layout.activity_item, viewGroup, false);
             return new ActivityHolder(view);
         }
 
